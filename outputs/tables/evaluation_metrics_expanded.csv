@@ -1,0 +1,10 @@
+metric,baseline,expanded
+accuracy,0.96,0.9667
+macro_f1,0.9601,0.9662
+easy_f1,0.9608,0.9709
+medium_f1,0.94,0.9474
+hard_f1,0.9796,0.9804
+structural_validity,1.0,1.0
+diversity,0.76,0.8333
+novelty_rate,0.0133,0.0067
+mean_max_similarity,0.9896,0.9926
