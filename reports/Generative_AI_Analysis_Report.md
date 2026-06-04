@@ -9,7 +9,7 @@
 
 ## Overview
 
-This project implements and evaluates a conditional generative model for 2D platformer level segment synthesis. The model is a decoder-only Transformer trained on tile-based level data from the Video Game Level Corpus (VGLC), with the objective of generating novel level segments that align with a requested difficulty target: Easy, Medium, or Hard. Difficulty conditioning is implemented through prepended control tokens that prompt the model to generate structurally appropriate tile sequences.
+This project implements and evaluates a conditional generative model for 2D platformer level segment synthesis. The work sits within the broader field of procedural content generation, the algorithmic creation of game content such as levels, maps, and items (Shaker et al., 2016). The model is a decoder-only Transformer trained on tile-based level data from the Video Game Level Corpus (VGLC), with the objective of generating novel level segments that align with a requested difficulty target: Easy, Medium, or Hard. Difficulty conditioning is implemented through prepended control tokens that prompt the model to generate structurally appropriate tile sequences.
 
 The primary research question is whether a small autoregressive Transformer can learn the structural associations between difficulty labels and tile configurations well enough to produce directed generation, given the small corpus size available in the VGLC. Secondary questions concern the effect of corpus size on generation quality and the effectiveness of alternative sampling strategies for improving output novelty.
 
@@ -59,7 +59,7 @@ Training was performed on an RTX 3080 (10GB VRAM). Both models completed 150 epo
 score = enemy_density × 40 + longest_gap × 5 + hazard_density × 30
 ```
 
-The longest ground gap carries the dominant weight because pit navigation is the primary mechanical challenge in Super Mario Bros gameplay. The feature weights are heuristic and exploratory rather than empirically validated.
+The longest ground gap carries the dominant weight because pit navigation is the primary mechanical challenge in Super Mario Bros gameplay. The feature weights are heuristic and exploratory rather than empirically validated. This reflects a broader reality in the field: there is no consensus methodology for evaluating procedural level generation systems, and difficulty in particular lacks a standard quantitative definition (Withington et al., 2024). The scoring formula here is therefore presented as one reasonable heuristic among many rather than a ground-truth measure of difficulty.
 
 Difficulty labels are assigned using percentile-based thresholds: chunks scoring below the 33rd percentile are labeled Easy, chunks between the 33rd and 67th percentile are labeled Medium, and chunks at or above the 67th percentile are labeled Hard. For the baseline corpus the thresholds are Easy < 5.68 and Hard >= 20.78, producing 54 Easy, 52 Medium, and 55 Hard chunks.
 
@@ -149,8 +149,8 @@ Sudhakaran, S., Gonzalez-Duque, M., Freiberger, M., Glanois, C., Najarro, E., & 
 
 Summerville, A., Snodgrass, S., Mateas, M., & Ontanon, S. (2016). The VGLC: The video game level corpus. In *Proceedings of the 7th Workshop on Procedural Content Generation.* https://arxiv.org/abs/1606.07487
 
-Summerville, A., Snodgrass, S., Green, M., Gaina, R. D., Justesen, N., Volz, V., Preuss, M., Mariño, J., Khalifa, A., Anderson, D., Font, J. M., Bhatt, U., Goldenson, S., Chen, G., Risi, S., Togelius, J., Ontanon, S., Szita, I., Holmgard, C., Shaker, N., Dahlskog, S., Horn, B., & Cook, M. (2018). Procedural content generation via machine learning (PCGML). *IEEE Transactions on Games, 10*(3), 257–270. https://doi.org/10.1109/TG.2018.2846772
+Summerville, A., Snodgrass, S., Guzdial, M., Holmgård, C., Hoover, A. K., Isaksen, A., Nealen, A., & Togelius, J. (2018). Procedural content generation via machine learning (PCGML). *IEEE Transactions on Games, 10*(3), 257–270. https://doi.org/10.1109/TG.2018.2846639
 
 Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, L., & Polosukhin, I. (2017). Attention is all you need. In *Advances in Neural Information Processing Systems* (Vol. 30). https://arxiv.org/abs/1706.03762
 
-Withington, T., & Liapis, A. (2024). Difficulty evaluation in Mario-style platformers. In *Proceedings of the 19th International Conference on the Foundations of Digital Games.* https://doi.org/10.1145/3649921.3656981
+Withington, O., Cook, M., & Tokarchuk, L. (2024). On the evaluation of procedural level generation systems. In *Proceedings of the 19th International Conference on the Foundations of Digital Games.* https://doi.org/10.1145/3649921.3650016

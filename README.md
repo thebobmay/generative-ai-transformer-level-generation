@@ -39,8 +39,9 @@ outputs/figures/                               training curves, difficulty distr
 outputs/tables/evaluation_metrics.csv          baseline evaluation metrics
 outputs/tables/evaluation_metrics_expanded.csv baseline vs expanded corpus comparison
 outputs/tables/sampling_experiment_results.csv temperature, top-k, and top-p results
-outputs/model_artifacts/level_generator.pt     baseline conditional model weights
-outputs/model_artifacts/level_generator_expanded.pt  expanded corpus model weights
+outputs/model_artifacts/level_generator.pt     conditional model weights (difficulty-conditioned)
+outputs/model_artifacts/baseline_generator.pt  baseline unconditional model weights
+outputs/model_artifacts/level_generator_expanded.pt  expanded corpus conditional model weights
 outputs/model_artifacts/level_tokenizer.pkl    vocabulary and encoding wrapper
 outputs/model_artifacts/difficulty_scorer.pkl  heuristic scorer with fitted thresholds
 src/data_processing.py                         level loading, normalization, and chunking
