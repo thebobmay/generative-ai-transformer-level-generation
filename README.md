@@ -51,6 +51,8 @@ src/tokenizer.py                               vocabulary, tokenization, and Dat
 src/model.py                                   LevelTransformer architecture
 ```
 
+`level_generator.pt` and `evaluation_metrics.csv` are the primary submission artifacts. The `_expanded` variants (`level_generator_expanded.pt`, `evaluation_metrics_expanded.csv`) document the follow-up corpus expansion experiment, and `baseline_generator.pt` is the unconditional reference model from the original analysis.
+
 ---
 
 ## How to Run
@@ -71,7 +73,15 @@ src/model.py                                   LevelTransformer architecture
 
 **Prerequisites:** Anaconda or Miniconda with Python 3.11 and conda on your PATH.
 
-**Note:** GPU execution is strongly recommended. The notebook detects CUDA automatically and falls back to CPU if unavailable. Training both models for 150 epochs takes under 5 minutes on an RTX 3080. The expanded corpus experiment trains a third model under the same hyperparameters. The sampling experiment generates approximately 1,800 level samples and may take several minutes on CPU. The `environment.yml` installs `torch==2.6.0+cu124` (CUDA 12.4 build). CPU-only users should install PyTorch separately after activating the environment:
+**Note:** GPU execution is strongly recommended. The notebook detects CUDA automatically and falls back to CPU if unavailable. Training both models for 150 epochs takes under 5 minutes on an RTX 3080. The expanded corpus experiment trains a third model under the same hyperparameters. The sampling experiment generates approximately 1,800 level samples and may take several minutes on CPU.
+
+The `environment.yml` pins `torch==2.6.0+cu124` (CUDA 12.4 build). CUDA-variant torch builds are not hosted on PyPI, so the pip section of `environment.yml` includes `--extra-index-url https://download.pytorch.org/whl/cu124` to resolve them. If your solver does not honor that line, install torch explicitly after activating the environment:
+
+```
+pip install torch==2.6.0+cu124 --extra-index-url https://download.pytorch.org/whl/cu124
+```
+
+CPU-only users should instead install the CPU build:
 
 ```
 pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
