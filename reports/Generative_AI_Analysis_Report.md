@@ -9,7 +9,7 @@
 
 ## Overview
 
-This project implements and evaluates a conditional generative model for 2D platformer level segment synthesis. The work sits within the broader field of procedural content generation, the algorithmic creation of game content such as levels, maps, and items (Shaker et al., 2016). The model is a decoder-only Transformer trained on tile-based level data from the Video Game Level Corpus (VGLC), with the objective of generating novel level segments that align with a requested difficulty target: Easy, Medium, or Hard. Difficulty conditioning is implemented through prepended control tokens that prompt the model to generate structurally appropriate tile sequences.
+This project implements and evaluates a conditional generative model for 2D platformer level segment synthesis. The work sits within the broader field of procedural content generation, the algorithmic creation of game content such as levels, maps, and items (Shaker et al., 2016). The model is a decoder only Transformer trained on tile based level data from the Video Game Level Corpus (VGLC), with the objective of generating novel level segments that align with a requested difficulty target: Easy, Medium, or Hard. Difficulty conditioning is implemented through prepended control tokens that prompt the model to generate structurally appropriate tile sequences.
 
 The primary research question is whether a small autoregressive Transformer can learn the structural associations between difficulty labels and tile configurations well enough to produce directed generation, given the small corpus size available in the VGLC. Secondary questions concern the effect of corpus size on generation quality and the effectiveness of alternative sampling strategies for improving output novelty.
 
@@ -19,7 +19,7 @@ The project trains a conditional model and a baseline unconditional model, evalu
 
 ## Dataset Description
 
-The primary data source is the Video Game Level Corpus (VGLC), an open academic dataset of tile-based platformer levels (Summerville et al., 2016). The VGLC encodes each level as a grid of tile characters representing gameplay elements: ground, enemies, pipes, blocks, gaps, and collectibles. This project uses Super Mario Bros (SMB1) overworld levels as the baseline training corpus, with Super Mario Bros: The Lost Levels (SMB2J) added in the corpus expansion experiment.
+The primary data source is the Video Game Level Corpus (VGLC), an open academic dataset of tile based platformer levels (Summerville et al., 2016). The VGLC encodes each level as a grid of tile characters representing gameplay elements: ground, enemies, pipes, blocks, gaps, and collectibles. This project uses Super Mario Bros (SMB1) overworld levels as the baseline training corpus, with Super Mario Bros: The Lost Levels (SMB2J) added in the corpus expansion experiment.
 
 **Baseline corpus:** 15 SMB1 overworld levels downloaded from the VGLC repository. Levels range from 149 to 373 columns wide and are uniformly 14 rows tall. Total tile count across the corpus is 40,922 tiles.
 
@@ -35,9 +35,9 @@ The dataset is committed directly to the repository under `data/raw/` and requir
 
 ## Model Design and Training Approach
 
-**Architecture.** Both the conditional and baseline models use a decoder-only Transformer architecture for next-token prediction (Vaswani et al., 2017). The model consists of 4 Transformer encoder layers with 8 attention heads, a model dimension of 256, and a feedforward sublayer of 1024 dimensions. The output projection maps from 256 dimensions to the 16-token vocabulary (13 tile characters plus 3 difficulty control tokens). Total parameter count is approximately 3.28 million for both models.
+**Architecture.** Both the conditional and baseline models use a decoder only Transformer architecture for next token prediction (Vaswani et al., 2017). The model consists of 4 Transformer encoder layers with 8 attention heads, a model dimension of 256, and a feedforward sublayer of 1024 dimensions. The output projection maps from 256 dimensions to the 16-token vocabulary (13 tile characters plus 3 difficulty control tokens). Total parameter count is approximately 3.28 million for both models.
 
-This architecture follows the approach of Sudhakaran et al. (2023), who demonstrated that autoregressive Transformers can generate playable Mario-style level segments by treating level content as a flat token sequence. The decoder-only formulation is appropriate because level generation is an autoregressive task: each tile is predicted from all preceding tiles in a left-to-right, top-to-bottom reading order.
+This architecture follows the approach of Sudhakaran et al. (2023), who demonstrated that autoregressive Transformers can generate playable Mario-style level segments by treating level content as a flat token sequence. The decoder only formulation is appropriate because level generation is an autoregressive task: each tile is predicted from all preceding tiles in a left-to-right, top-to-bottom reading order.
 
 **Tokenization.** Tile characters are assigned integer IDs 0 through 12 in sorted order. Three difficulty control tokens are assigned IDs 13 through 15 (Easy, Medium, Hard). Each tokenized training sequence has length 449: one control token followed by 448 tile tokens read row by row across the 14-row by 32-column chunk.
 

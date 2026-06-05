@@ -59,7 +59,13 @@ class DifficultyScorer:
         self.hard_threshold = hard_threshold
 
     def score(self, rows: list) -> float:
-        """Compute heuristic difficulty score from a list of tile row strings."""
+        """Compute heuristic difficulty score from a list of tile row strings.
+
+        This intentionally reimplements the formula from
+        ``src.labeling.compute_difficulty_score`` rather than importing it, so a
+        pickled scorer stays fully self-contained and can be loaded downstream
+        without the rest of the project on the path.
+        """
         total          = len(rows) * len(rows[0]) if rows else 1
         enemy_density  = sum(row.count("E") for row in rows) / total
         hazard_density = sum(
