@@ -13,7 +13,7 @@ This project trains a conditional decoder only Transformer to generate 2D platfo
 ## Dataset
 
 **Name:** Video Game Level Corpus (VGLC)
-**Source:** Summerville, A., Snodgrass, S., Mateas, M., & Ontanon, S. (2016). The VGLC: The video game level corpus. *Proceedings of the 7th Workshop on Procedural Content Generation.*
+**Source:** Summerville, A., Snodgrass, S., Mateas, M., & Ontañón, S. (2016). The VGLC: The video game level corpus. *Proceedings of the 7th Workshop on Procedural Content Generation.*
 **Repository:** [https://github.com/TheVGLC/TheVGLC](https://github.com/TheVGLC/TheVGLC)
 **License:** CC BY 4.0
 
@@ -49,6 +49,8 @@ src/feature_engineering.py                     structural feature computation
 src/labeling.py                                difficulty scoring and label assignment
 src/tokenizer.py                               vocabulary, tokenization, and Dataset class
 src/model.py                                   LevelTransformer architecture
+src/artifacts.py                               LevelTokenizer and DifficultyScorer (pickled classes)
+src/evaluation.py                              generation metric functions
 ```
 
 `level_generator.pt` and `evaluation_metrics.csv` are the primary submission artifacts. The `_expanded` variants (`level_generator_expanded.pt`, `evaluation_metrics_expanded.csv`) document the follow-up corpus expansion experiment, and `baseline_generator.pt` is the unconditional reference model from the original analysis.
@@ -103,9 +105,9 @@ The nearest neighbour similarity analysis confirmed that a substantial fraction 
 
 ## Future Integration Reflection
 
-### How this generator could support the AI Game Director Studio
+### How this generator could support future projects
 
-In the AI Game Director Studio pipeline, this level generator serves as the procedural content layer: given a target difficulty level for the current player session, the generator can produce candidate level segments that match the requested structural profile. The director agent can select among generated candidates based on additional context such as recent player performance, session length, or inferred skill level. The saved `level_tokenizer.pkl` and `difficulty_scorer.pkl` artifacts provide a consistent interface for loading the generation and scoring components without re-running training.
+This level generator can serve as the procedural content layer in a larger system: given a target difficulty level for the current player session, the generator produces candidate level segments that match the requested structural profile. A higher level controller or orchestrating agent can select among generated candidates based on additional context such as recent player performance, session length, or inferred skill level. The saved `level_tokenizer.pkl` and `difficulty_scorer.pkl` artifacts provide a consistent interface for loading the generation and scoring components without re-running training, so a future project can reuse them directly.
 
 ### How this dataset and model would need to evolve for deeper integration
 
@@ -113,7 +115,7 @@ Deeper integration would require several expansions. The training corpus current
 
 ### How agentic automation could assist this workflow
 
-An agentic pipeline could automate the end to end level generation loop: receiving a difficulty target from the director agent, sampling a candidate level at the recommended temperature setting (1.2 for balanced diversity and accuracy), scoring it with the difficulty scorer, and returning only candidates that pass both the structural validity check and a difficulty threshold. The pipeline could also run batch generation to build a candidate library ahead of time, indexed by difficulty class, so the director can retrieve a pre-validated segment without incurring generation latency during an active session.
+An agentic pipeline could automate the end to end level generation loop: receiving a difficulty target from a higher level controller, sampling a candidate level at the recommended temperature setting (1.2 for balanced diversity and accuracy), scoring it with the difficulty scorer, and returning only candidates that pass both the structural validity check and a difficulty threshold. The pipeline could also run batch generation to build a candidate library ahead of time, indexed by difficulty class, so the controller can retrieve a pre-validated segment without incurring generation latency during an active session.
 
 ---
 
